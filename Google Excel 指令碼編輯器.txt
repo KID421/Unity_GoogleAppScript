@@ -1,0 +1,30 @@
+function myFunction() {
+  var app = SpreadsheetApp.openById("1ZksJnC-x7QN1gc6LkgrRFAd0r_qmkS6KYeUu2-cXxNM");
+  var sheet = app.getSheets()[0];
+  var data = ["史萊姆", 30, 200, 2.5];
+  sheet.appendRow(data);
+}
+
+
+function doPost(e) {
+  var app = SpreadsheetApp.openById("1ZksJnC-x7QN1gc6LkgrRFAd0r_qmkS6KYeUu2-cXxNM");
+  
+  var par = e.parameter;
+  
+  if(par.method == "讀取") {
+    var sheet = app.getSheets()[0];
+    return ContentService.createTextOutput(sheet.getRange(par.row, par.col).getValue());
+  }
+
+  if(par.method == "寫入") {
+    var sheet = app.getSheets()[0];
+    var data = [par.name, par.hp, par.atk, par.speed];
+    sheet.appendRow(data);
+    return ContentService.createTextOutput("成功寫入資料");
+  }
+  
+  if(par.method == "修改") {
+    var sheet = app.getSheets()[0];
+    return ContentService.createTextOutput(sheet.getRange(par.row, par.col).setValue(par.name));
+  }
+}
